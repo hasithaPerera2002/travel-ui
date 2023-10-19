@@ -1,0 +1,30 @@
+.container-fluid{
+    background-color:rgb(198, 235, 253);
+    width: 100vw;
+
+}
+.sign-content{
+    padding: 0;
+    height: 120vh;
+    border-radius: 20px;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    background-color: #fff;
+}
+a{
+    color: black;
+}
+.arrow{
+    position: absolute;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+.sign-up{
+    padding-left: 30rem;
+}
+html{
+    overflow-x: hidden;
+}
+.form-input{
+    width: 30rem;
+}
