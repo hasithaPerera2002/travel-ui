@@ -1,0 +1,57 @@
+.hero{
+    background-color: rgb(100, 157, 182);
+    height: 80vh;
+    width: 100%;
+    }
+    .image-slider{
+        left: 50rem;
+        border-radius: 14rem;
+        height: 80vh;
+        width: 30vw;
+        margin-top: 4rem;
+        position: absolute;
+        box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
+        background: url("/img/img-1.jpg") no-repeat center center/cover;
+        animation: slide 25s infinite;
+    }
+    @keyframes slide {
+        25%{
+            background: url("/img/img-2.jpg") no-repeat center center/cover;
+        }
+        50%{
+            background: url("/img/img-3.jpg") no-repeat center center/cover;
+        }
+        75%{
+            background: url("/img/img-4.png") no-repeat center center/cover;
+        }
+        100%{
+            background: url("/img/img-1.jpg") no-repeat center center/cover;
+        }
+    }
+.hero-text{
+
+    margin-top: 10rem;
+    margin-left: 5rem;
+    color: #fff;
+    font-size: 5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
+}
+.underlined {
+    /*   background: red; */
+    position: relative;
+}
+
+.underline-clip:after {
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid rgb(254, 211, 48);
+    /* Use a clip-path to hide and show the bits you want */
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+}
