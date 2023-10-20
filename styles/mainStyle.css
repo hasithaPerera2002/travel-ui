@@ -52,6 +52,94 @@
     transform: translate(-50%, 0);
     border-radius: 50%;
     border: 6px solid rgb(254, 211, 48);
-    /* Use a clip-path to hide and show the bits you want */
     clip-path: polygon(0 0, 50% 50%, 100% 0);
+}
+.welcome-area{
+    height: 90vh;
+    margin-top: 10rem;
+}
+.welcome-img{
+    background: url("/img/img-6.jpg") no-repeat center center/cover;
+    height: 60vh;
+}
+.welcome-text{
+    color: #1f0101;
+    font-size: 2.3rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+
+}
+.underlined-blue:after{
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid rgb(100, 157, 182);
+    clip-path: polygon(0 0, 25% 20%, 80% 0);
+}
+.underlined-purple:after{
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 12 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid rgb(134 214 194);
+    clip-path: polygon(0 0, 67% 18%, 95% 0);
+}
+.welcome-para{
+    margin-top: 4rem;
+    line-height: 2rem;
+    letter-spacing: 0.02rem;
+    word-spacing: .4rem;
+    font-size: 1.4rem;
+    font-family: 'Candara', sans-serif;
+}
+.list-font{
+    line-height: 2rem;
+    letter-spacing: 0.02rem;
+    word-spacing: .4rem;
+    font-size: 1.2rem;
+    font-family: 'Droid Sans', sans-serif;
+}
+.service-div{
+    height: 90vh;
+}
+.service-div-2{
+    margin-top: 5rem;
+}
+
+.service-text{
+    left: 40rem;
+    position: absolute;
+    color: #1f0101;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.img-div-service{
+    height: 100%;
+}
+.service-img{
+    background: url("/img/img-7.jpg") no-repeat center center/cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 5rem;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.services{
+   padding: 1 rem;
+   
+}
+.services-div{
+    border-radius: 2rem;
+    padding: 2rem;
+    background: rgb(100 149 182 / 40%);;
 }
