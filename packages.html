@@ -10,29 +10,102 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/whereTo.css">
+    <link rel="stylesheet" href="styles/packages.css">
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
     <div class="container-fluid">
+        <div class="dropdowns d-flex">
+            <div class="dropdown p-5">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button class="dropdown-item" onclick="filterPackages('all')" type="button">ALL</button>
+                    </li>
+                    <li><button class="dropdown-item" onclick="filterPackages('LUXURY')" type="button">LUXURY</button>
+                    </li>
+                    <li><button class="dropdown-item" onclick="filterPackages('SUPER_LUXURY')" type="button">SUPER
+                            LUXURY</button></li>
+                    <li><button class="dropdown-item" onclick="filterPackages('MID_LEVEL')" type="button">MID
+                            LEVEL</button>
+                    </li>
+                    <li><button class="dropdown-item" onclick="filterPackages('REGULAR')" type="button">REGULAR</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dropdown p-5">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Select a Location
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown"
+                            onclick="filterPlaces('Kandy and Upcountry')" type="button">Kandy and
+                            Upcountry</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown" onclick="filterPlaces('Eastern Coast')"
+                            type="button">Eastern Coast</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown"
+                            onclick="filterPlaces('Capital Colombo')" type="button">Capital Colombo</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown" onclick="filterPlaces('Western Coast')"
+                            type="button">Western Coast</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown"
+                            onclick="filterPlaces('North Peninsula')" type="button">North Peninsula</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown" onclick="filterPlaces('Down South')"
+                            type="button">Down South</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown"
+                            onclick="filterPlaces('Sigiriya and Dambulla')" type="button">Sigiriya and
+                            Dambulla</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown"
+                            onclick="filterPlaces('Anuradhapura and Polonnaruwa')" type="button">Anuradhapura and
+                            Polonnaruwa</button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" data-bs-toggle="dropdown" onclick="filterPlaces('Matale')"
+                            type="button">Matale</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- spinner  -->
+        <div class="spinner-border m-5 z-5  " id="spinner" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <a href="index.html" class="arrow">
                     <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                     Back
                 </a>
-                <div class="where-to-text">Where to ?</div>
-                <div class="places row">
-                    <div class="col-md-4">aaaa</div>
-                    <div class="col-md-4">aaaa</div>
-                    <div class="col-md-4">aaa</div>
-                    <div class="col-md-4">aaa</div>
-
+                <div class="where-to-text underlined-purple underlined ">Where to ?</div>
+                <div class="places row" id="card">
                 </div>
+
             </div>
         </div>
     </div>
+    </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="scritps/packages.js"></script>
 
 </html>

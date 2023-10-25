@@ -627,4 +627,22 @@ svg:hover {
     margin-top: 2px;
 }
 
-  
+#spinner{
+        left: 0;
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            z-index: 5;
+            top: 0;
+            background-color: azure;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        
+}
+.spinner-border{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+}
