@@ -5,8 +5,8 @@ html{
 .where-to-text{
     top: 4rem;
     position: absolute;
-    left: 4rem;
-    color: #1f0101;
+   
+    color: #fffcfc;
     font-family: 'Times New Roman', Times, serif;
     font-size: 4rem;
     font-weight: 500;
@@ -106,7 +106,7 @@ a:hover{
 .dropdowns{
     position: absolute;
     top: 9rem;
-    left: 54rem;
+    left: 50rem;
 }
 .underlined {
     /*   background: red; */
@@ -116,11 +116,19 @@ a:hover{
     content: '';
     position: absolute;
     top: 115%;
-    width: 150%;
+    width: 50%;
     aspect-ratio: 12 / 1;
     left: 50%;
     transform: translate(-50%, 0);
     border-radius: 50%;
-    border: 6px solid rgb(134 214 194);
-    clip-path: polygon(0 0, 10% 3%, 95% 0);
+    border: 6px solid rgb(231, 214, 32);
+    clip-path: polygon(0 0, 40% 18%, 95% 0);
+}
+.background{
+    height: 18rem;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    background-color: rgb(100, 157, 182);
+    left: 0;
 }

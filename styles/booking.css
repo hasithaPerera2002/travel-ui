@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+.main-hotel-div {
+    margin-top: 18rem;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid red;
+}
+.background {
+    width: 100%;
+    height: 18rem;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    background-color: rgb(100, 157, 182);
+    left: 0;
+}
+a {
+    z-index: 1;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+a:hover {
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.arrow{
+    top: 1rem;
+    position: absolute;
+    padding: 1rem; 
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.hero-text{
+    position: absolute !important;
+    top: 6rem;
+    left: 33rem;
+    font-size: 4rem;
+    font-family: 'Manrope', sans-serif;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+.underlined {
+   
+    position: relative;
+}
+
+.underlined-purple:after {
+    content: '';
+    position: absolute;
+    top: 5rem;
+    width: 35rem;
+    aspect-ratio: 4 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid rgb(231, 214, 32);
+    clip-path: polygon(0 0, 40% 18%, 95% 0);
+}
+.card{
+   
+    height: 57vh;
+    background-color: #0077ff0f;
+}
+.vertical-ruler {
+    height: 6rem;
+        width: 1px;
+        background-color: #00000021;
+        position: absolute;
+        left: 30rem;
+        top: 10.5rem;
+}
+.hotel-div{
+  
+    top: 20rem;
+    position: relative;
+}
+.fw-bold{
+    font-size: 3rem;
+    font-weight: bolder;
+}
+.name{
+    font-family: 'Monrope', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+}
+.star{
+    position: absolute;
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    top: 1.3rem;
+    right: 1.5rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+.town{
+    position: relative;
+    font-family: 'MONROPE', sans-serif;
+   ;
+}
+.desc{
+    width: 25rem;
+    font-size: .8rem;
+    font-family: 'Monrope', sans-serif;
+    font-weight: 600;
+}
+.features{
+    font-family: 'Monrope', sans-serif;
+    color: #008234;
+    font-size: .8rem;
+}
