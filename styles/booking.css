@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
-.main-hotel-div {
-    margin-top: 18rem;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid red;
-}
+
 .background {
     width: 100%;
     height: 18rem;
@@ -71,11 +65,12 @@ a:hover {
         width: 1px;
         background-color: #00000021;
         position: absolute;
-        left: 30rem;
+        left: 29.5rem;
         top: 10.5rem;
 }
 .hotel-div{
-  
+
+    margin-bottom: 40rem;
     top: 20rem;
     position: relative;
 }
@@ -111,4 +106,20 @@ a:hover {
     font-family: 'Monrope', sans-serif;
     color: #008234;
     font-size: .8rem;
+}
+.hotel-div-2{
+    margin-left: 6rem;
+    width: 85%;
+    margin-top: 2rem;
+    height: 8rem;
+    background-color: #0077ff0f;
+    border-radius: 10px;
+    border: 1px solid black;
+    position: relative;
+}
+input[type="text"] {
+    width: 15rem;
+}
+.text-center{
+    font-family: 'Monrope', sans-serif;
 }

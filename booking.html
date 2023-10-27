@@ -12,6 +12,9 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/booking.css">
     <link rel="stylesheet" href="/fontawesome-free-6.4.2-web/css/all.min.css">
+    <script src="fontawesome-free-6.4.2-web/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
 
 </head>
 
@@ -25,50 +28,7 @@
         <div class="background col-md-12"></div>
         <div class="col-md-10 offset-md-1 hotel-div">
             <div id="myCarousel" class="carousel slide">
-                <div class="carousel-inner">
-                    <!-- <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
-                                <div class="col-md-5">
-                                    <div class="img-thumbnail ms-1" style="background: url(/img/anuradhapura-1.jpg) no-repeat; 
-                                        background-size: cover;
-                                            margin-top: 2vh;
-                                            height: 52vh;">
-                                    </div>
-                                </div>
-                                <div class="vertical-ruler"></div>
-                                <div class="col-md-7 ps-2 h-100">
-                                    <div class="name mt-3 ms-4 text-dark">Marino Colombo</div>
-                                    <div class=" text-warning star"><i class="fa fa-star"></i>5</div>
-                                    <div class="town ms-4 mt-1">Colombo</div>
-                                    <div class="desc ms-4 mt-2"> Well-appointed guest rooms with comfortable beds, clean
-                                        linens, and essential furnishings.</div>
-                                    <div class="features ms-4 mt-4 col-md-8">
-                                        <div class="col-md-12 ms-2"><i class="fa fa-check"></i>
-                                            Free Cancellation</div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> 24/7 Reception
-                                        </div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> Bar and Lounge
-                                        </div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> Laundry Service
-                                        </div>
-                                    </div>
-                                    <div class="icons ms-4 mt-4 col-md-8">
-                                        <i class="fas fa-wifi m-2"></i>
-                                        <i class="fas fa-swimming-pool m-2"></i>
-                                        <i class="fas fa-utensils m-2"></i>
-                                        <i class="fas fa-dumbbell m-2"></i>
-                                        <i class="fas fa-concierge-bell m-2"></i>
-                                        <i class="fas fa-parking m-2"></i>
-
-                                    </div>
-                                    <button class="btn btn-primary ms-4 mt-4">See more</button>
-                                    <button class="btn btn-success  mt-4 position-relative" style="left: 20rem;">
-                                        <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i> Select</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                <div class="carousel-inner" id="carouselHotel">
 
                 </div>
                 <a class="carousel-control-prev text-dark fw-bold" href="#myCarousel" role="button"
@@ -82,11 +42,128 @@
                     <span class="visually-hidden">Next</span>
                 </a>
             </div>
+            <div class="hotel-div-2 ">
+                <div class="row">
+                    <div class="col mt-2 text-center">
+                        <div>
+                            Select Dates
+                        </div>
+                        <input type="text" id="rangeDate" class="form-control ms-2 mt-2 input text-center"
+                            placeholder="Please select Date " readonly="readonly">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="dateRangeError"
+                            role="alert">
+                            Please select a valid date range
+                        </div>
+                    </div>
+                    <div class="col mt-2 text-center">
+                        <div>
+                            Start Date
+                        </div>
+                        <input type="text" class="form-control mt-2  text-center" readonly id="startDate"
+                            placeholder="Start Date">
+                    </div>
+                    <div class="col mt-2 text-center">
+                        <div>
+                            End Date
+                        </div>
+                        <input type="text" class="form-control mt-2  text-center" readonly id="endDate"
+                            placeholder="End Date">
+                    </div>
+                    <div class="col mt-2 text-center">
+                        <div>
+                            Total Dates
+                        </div>
+                        <input type="text" class="form-control mt-2  text-center" readonly id="totalDates"
+                            placeholder="Total Dates">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="hotel-div-2">
+                <div class="row">
+                    <div class=" col text-center" style="margin-top: 2rem;">
+                        <button class="btn btn-primary dropdown-toggle" id="packagesDropdown" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Select Package</button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button"
+                                    onclick="handleDropdownPackage('doubleFullBoardPrice')">Double Full Board</button>
+                            </li>
+
+
+                            <li><button class="dropdown-item" type="button"
+                                    onclick="handleDropdownPackage('doubleHalfBoardPrice')">Double Half
+                                    Board</button></li>
+
+
+                            <li><button class="dropdown-item" type="button"
+                                    onclick="handleDropdownPackage('tripleFullBoardPrice')">Triple Full
+                                    Board</button></li>
+
+
+                            <li><button class="dropdown-item" type="button"
+                                    onclick="handleDropdownPackage('tripleHalfBoardPrice')">Triple Half
+                                    Board</button></li>
+                        </ul>
+                    </div>
+                    <div class="col mt-2 text-center">
+                        <div>Package </div>
+                        <input type="text" class="form-control mt-1" id="packageName" placeholder="Package Name"
+                            readonly>
+
+                    </div>
+                    <div class="col mt-2 text-right">
+                        <div>Package Price</div>
+                        <input type="text" class="form-control mt-1" id="packagePrice" placeholder="Package Price"
+                            readonly>
+                    </div>
+                    <div class="col mt-2 text-center">
+                        <div>Discount </div>
+                        <input type="text" class="form-control mt-1" id="packageDiscount" placeholder="Discount"
+                            readonly>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="hotel-div-2">
+                <div class="row">
+                    <div class="col-md-3 ms-2 mt-2 text-center">
+                        <div>Number of Adults</div>
+                        <input type="number" class="form-control text-center mt-1" id="adultCount" min="1"
+                            placeholder="No of Adults">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                            Please select a valid date range
+                        </div>
+                    </div>
+                    <div class="col-md-3 ms-2 mt-2 text-center">
+                        <div>Number of Children</div>
+                        <input type="number" class="form-control text-center mt-1" id="childCount" min="1"
+                            placeholder="No of Children">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="childrenError" role="alert">
+                            Please select a valid date range
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-5  mt-2 text-center">
+                        <div>Remarks</div>
+                        <input type="text" class="form-control mt-1" id="remarks" min="1" placeholder=""
+                            style="width: 30rem;">
+
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+    </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.min.js"></script>
 <script src="scritps/booking.js"></script>
 
 </html>
