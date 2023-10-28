@@ -1,4 +1,5 @@
-let data;
+let hotelData;
+let vehicleData;
 let noOfDays;
 
 $("#dateRangeError").hide();
@@ -62,12 +63,26 @@ $("document").ready(async function () {
     if (hotelData.ok) {
       hotelData = await hotelData.json();
       hotelData = hotelData.data;
-      data = hotelData;
     } else {
-      throw new Error("Network response was not ok");
+      throw new Error("Network response was not ok in hotel data");
     }
 
-    data.forEach((element, index) => {
+    let vehicleData = await fetch(
+      `http://localhost:8084/api/v1/vehicles/search/available?category=${packageType}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {},
+      }
+    );
+    if (vehicleData.ok) {
+      vehicleData = await vehicleData.json();
+      vehicleData = vehicleData.data;
+    } else {
+      throw new Error("Network response was not ok in vehicle data");
+    }
+
+    hotelData.forEach((element, index) => {
       let newCard = $("<div>").addClass("carousel-item ");
       if (index === 0) {
         newCard.addClass("active");
@@ -119,7 +134,90 @@ $("document").ready(async function () {
       $("#carouselHotel").append(newCard);
     });
 
+    vehicleData.forEach((element, index) => {
+      var newCard = $("<div>").addClass("carousel-item ");
+
+      if (index === 0) {
+        newCard.addClass("active");
+      }
+
+      newCard.attr("data-package-id", element.vehicleId);
+
+      var innerHtml = ` <div class="carsoul-item ">
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
+                                <div class="col-md-7">
+                                    <div class="img-thumbnail ms-1" style="background: url('data:image/jpg;base64,${element.frontView}') no-repeat; 
+                                                                                    background-size: cover;
+                                                                                        margin-top: 2vh;
+                                                                                        height: 52vh;">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 ps-2 h-75">
+                                    <div class="name mt-3 ms-4 text-dark"> ${element.brand}</div>
+                                    <div class="mt-5">
+                                        <div class="row ">
+                                            <div class="town ms-4 col mt-1"><i class="fa-solid fa-car"></i> Vehicle
+                                                type
+                                                :</div>
+                                            <div class="town ms-4 col mt-1">${element.vehicleType}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1"><i class="fa-solid fa-users-line"></i>
+                                                Capacity :</div>
+                                            <div class="town ms-4 col mt-1">${element.seatingCapacity}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1"><i class="fa-solid fa-gas-pump"></i> Fuel
+                                                Type :</div>
+                                            <div class="town ms-4 col mt-1">${element.fuelType}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town col ms-4 mt-1"><i class="fa-solid fa-leaf"></i> Is hybrid :
+                                            </div>
+                                            <div class="town ms-4 col mt-1">${element.hybrid}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1"><i class="fa-solid fa-gear"></i>
+                                                Transmission :</div>
+                                            <div class="town ms-4 col mt-1">${element.transmissionType}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1"><i class="fa-regular fa-money-bill-1"></i>
+                                                Daily Rate :</div>
+                                            <div class="town ms-4 col mt-1">RS ${element.dailyRate}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1"><i class="fa-regular fa-money-bill-1"></i>
+                                                Price per KM :</div>
+                                            <div class="town ms-4 col mt-1">RS ${element.priceForKm}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="town ms-4 col mt-1">
+                                                <i class="fa-solid fa-gas-pump"></i> Fuel
+                                                Consumption :
+                                            </div>
+                                            <div class="town ms-4 col mt-1">${element.fuelConsumption} Per Litre</div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <button class="btn btn-primary ms-4 mt-4">See more Images</button>
+                                    <button class="btn btn-success  mt-4 position-relative" style="left: 5rem;"
+                                        onclick="selectedHotel('${element.hotelId}')">
+                                        <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i> Select</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+      newCard.append(innerHtml);
+      $("#carouselVehicle").append(newCard);
+    });
+
     console.log("hotelData:", hotelData);
+    console.log("vehicleData:", vehicleData);
   } catch (error) {
     console.log(error);
   }
