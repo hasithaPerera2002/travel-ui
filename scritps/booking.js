@@ -8,6 +8,7 @@ $("#adultError").hide();
 $("#childrenError").hide();
 $("#vehicleBrandError").hide();
 $("#vehicleNumberError").hide();
+$(".spinner-div").show();
 
 $("#rangeDate").flatpickr({
   mode: "range",
@@ -246,6 +247,7 @@ $("document").ready(async function () {
   } catch (error) {
     console.log(error);
   }
+  $(".spinner-div").hide();
 });
 
 function initMap() {
@@ -320,3 +322,6 @@ function handleDropdownPackage(package) {
       break;
   }
 }
+$("#booking-btn").click(function () {
+  console.log("clicked");
+});
