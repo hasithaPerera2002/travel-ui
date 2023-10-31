@@ -1,52 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
-
-.background {
-    width: 100%;
+.hero-div{
+    position: relative;
     height: 18rem;
-    position: absolute;
-    z-index: -1;
-    top: 0;
     background-color: rgb(100, 157, 182);
-    left: 0;
+    font-family: 'Manrope', sans-serif;
+    
 }
 a {
-    z-index: 1;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: black;
 }
 
-a:hover {
-    color: #ffffff;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-.arrow{
-    top: 1rem;
+.arrow {
     position: absolute;
-    padding: 1rem; 
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    margin-left: 2rem;
+    z-index: 2;
+    margin-top: 1rem;
 }
 .hero-text{
-    position: absolute !important;
-    top: 6rem;
-    left: 33rem;
-    font-size: 4rem;
-    font-family: 'Manrope', sans-serif;
     color: #fff;
-    transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 6rem;
+    left: 40rem;
+    font-size: 5rem;
 }
 .underlined {
-   
-    position: relative;
+
+    position: absolute;
 }
 
 .underlined-purple:after {
     content: '';
     position: absolute;
-    top: 5rem;
+    top: 7rem;
     width: 35rem;
     aspect-ratio: 4 / 1;
     left: 50%;
@@ -55,35 +40,24 @@ a:hover {
     border: 6px solid rgb(231, 214, 32);
     clip-path: polygon(0 0, 40% 18%, 95% 0);
 }
-.card{
-   
-    height: 57vh;
-    background-color: #0077ff0f;
-}
-.vertical-ruler {
-    height: 6rem;
-        width: 1px;
-        background-color: #00000021;
-        position: absolute;
-        left: 29.5rem;
-        top: 10.5rem;
-}
 .hotel-div{
-
-    margin-bottom: 40rem;
-    top: 20rem;
     position: relative;
 }
-.fw-bold{
-    font-size: 3rem;
-    font-weight: bolder;
+.vertical-ruler {
+    height: 7rem;
+    width: 1px;
+    background-color: #00000021;
+    position: absolute;
+    left: 35rem;
+    top: 9.5rem;
 }
-.name{
+.name {
     font-family: 'Monrope', sans-serif;
     font-size: 2rem;
     font-weight: 700;
 }
-.star{
+
+.star {
     position: absolute;
     font-size: 1.5rem !important;
     font-weight: 700;
@@ -91,87 +65,13 @@ a:hover {
     right: 1.5rem;
     font-family: 'Courier New', Courier, monospace;
 }
-.town{
+.town {
     position: relative;
     font-family: 'MONROPE', sans-serif;
-   ;
-}
-.desc{
-    width: 25rem;
-    font-size: .8rem;
-    font-family: 'Monrope', sans-serif;
-    font-weight: 600;
-}
-.features{
-    font-family: 'Monrope', sans-serif;
-    color: #008234;
-    font-size: .8rem;
-}
-.hotel-div-2{
-    margin-left: 6rem;
-    width: 66rem;
-    margin-top: 2rem;
-    height: 8rem;
-    background-color: #0077ff0f;
-    border-radius: 10px;
-    border: 1px solid black;
-    position: relative;
-}
-input[type="text"] {
-    width: 15rem;
-}
-.text-center{
-    font-family: 'Monrope', sans-serif;
-}
-#vehicleCarousel{
-    position: relative;
-    top: 5rem;
-
-}
-.hotel-images{
-    
-    position: relative;
-    height: 90vh;
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-.hotel-desc{
-    position: relative;
-    height: 80vh;
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
     
 }
-.hotel-desc{
-    font-family: 'Monrope', sans-serif;
-    font-weight: 100;
-}
-.progress {
-    height: 10px;
-    border-radius: 20px;
-
-}
-
-.progress .skill .val {
-    float: right;
-    font-style: normal;
-    margin: 0 20px 0 0;
-}
-.progress-bar {
-    text-align: left;
-
-    border-radius: 20px;
-    transition-duration: 3s;
-}
-.hotel-ratings{
-    position: relative;
-   margin-bottom: 2rem;
-    left: 1rem;
-    font-family: 'Monrope', sans-serif;
-    font-weight: 100;
-height: 40vh;
+.card{
+    height: 27rem;
 }
 .site-footer {
     font-size: 14px;
@@ -258,6 +158,20 @@ height: 40vh;
 }
 
 
-a {
+a{
     text-decoration: none;
+}
+#spinner {
+    position: relative;
+    top: 40%;
+    left: 45%;
+}
+.spinner-div{
+   
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: #bce1ed4d;
+    z-index: 2;
+
 }

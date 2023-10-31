@@ -56,7 +56,7 @@ function handleCard(placeName, packageType) {
   const encodedPlaceName = encodeURIComponent(placeName);
   const encodedPackageType = encodeURIComponent(packageType);
   const encodedURL = `http://127.0.0.1:5501/${encodeURIComponent(
-    "booking.html"
+    "hotel.html"
   )}?placeName=${encodedPlaceName}&packageType=${encodedPackageType}`;
 
   // Open the URL in a new window

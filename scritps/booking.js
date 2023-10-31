@@ -1,10 +1,13 @@
 let hotelData;
 let vehicleData;
+let guideData;
 let noOfDays;
 
 $("#dateRangeError").hide();
 $("#adultError").hide();
 $("#childrenError").hide();
+$("#vehicleBrandError").hide();
+$("#vehicleNumberError").hide();
 
 $("#rangeDate").flatpickr({
   mode: "range",
@@ -30,8 +33,6 @@ $("#rangeDate").flatpickr({
 });
 $("document").ready(async function () {
   try {
-    console.log("hiiiiiiii");
-
     const currentURL = window.location.href;
 
     const searchParams = new URLSearchParams(window.location.search);
@@ -48,26 +49,30 @@ $("document").ready(async function () {
         : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    console.log("placeName:", placeName);
+    let id = getParameterByName("hotelId");
+    // let packageType = getParameterByName("packageType");
+
+    console.log("id:", id);
     console.log("packageType:", packageType);
 
     // fetching data from the server
-    let hotelData = await fetch(
-      `http://localhost:8082/api/v1/hotels/search/categoryAndPlace?placeName=${placeName}&category=${packageType}`,
+    let hotel = await fetch(
+      `http://localhost:8082/api/v1/hotels/search?id=${id}`,
       {
         method: "GET",
         mode: "cors",
         headers: {},
       }
     );
-    if (hotelData.ok) {
-      hotelData = await hotelData.json();
+    if (hotel.ok) {
+      hotelData = await hotel.json();
       hotelData = hotelData.data;
+      console.log(hotelData);
     } else {
       throw new Error("Network response was not ok in hotel data");
     }
 
-    let vehicleData = await fetch(
+    let vehicle = await fetch(
       `http://localhost:8084/api/v1/vehicles/search/available?category=${packageType}`,
       {
         method: "GET",
@@ -75,64 +80,27 @@ $("document").ready(async function () {
         headers: {},
       }
     );
-    if (vehicleData.ok) {
-      vehicleData = await vehicleData.json();
+    if (vehicle.ok) {
+      vehicleData = await vehicle.json();
       vehicleData = vehicleData.data;
     } else {
       throw new Error("Network response was not ok in vehicle data");
     }
 
-    hotelData.forEach((element, index) => {
-      let newCard = $("<div>").addClass("carousel-item ");
-      if (index === 0) {
-        newCard.addClass("active");
+    let guide = await fetch(
+      `http://localhost:8085/api/v1/guide/all/available`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {},
       }
-      newCard.attr("data-package-id", element.hotelId);
-
-      var innerHTML = ` <div class="row">
-                            <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
-                                <div class="col-md-5">
-                                    <div class="img-thumbnail ms-1" style="background: url('data:image/jpg;base64,${element.hotelImage}') no-repeat; 
-                                        background-size: cover;
-                                            margin-top: 2vh;
-                                            height: 52vh;">
-                                    </div>
-                                </div>
-                                <div class="vertical-ruler"></div>
-                                <div class="col-md-7 ps-2 h-100">
-                                    <div class="name mt-3 ms-4 text-dark">${element.hotelName}</div>
-                                    <div class=" text-warning star"><i class="fa fa-star"></i>${element.hotelStarRating}</div>
-                                    <div class="town ms-4 mt-1">${element.hotelAddress}</div>
-                                    <div class="desc ms-4 mt-2"> Well-appointed guest rooms with comfortable beds, clean
-                                        linens, and essential furnishings.</div>
-                                    <div class="features ms-4 mt-4 col-md-8">
-                                        <div class="col-md-12 ms-2"><i class="fa fa-check"></i>
-                                            Free Cancellation</div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> 24/7 Reception
-                                        </div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> Bar and Lounge
-                                        </div>
-                                        <div class="col-md-12 mt-2 ms-2"><i class="fa fa-check"></i> Laundry Service
-                                        </div>
-                                    </div>
-                                    <div class="icons ms-4 mt-4 col-md-8">
-                                        <i class="fas fa-wifi m-2"></i>
-                                        <i class="fas fa-swimming-pool m-2"></i>
-                                        <i class="fas fa-utensils m-2"></i>
-                                        <i class="fas fa-dumbbell m-2"></i>
-                                        <i class="fas fa-concierge-bell m-2"></i>
-                                        <i class="fas fa-parking m-2"></i>
-
-                                    </div>
-                                    <button class="btn btn-primary ms-4 mt-4">See more</button>
-                                    <button class="btn btn-success  mt-4 position-relative" style="left: 20rem;" onclick="selectedHotel('${element.hotelId}')">
-                                        <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i> Select</button>
-                                </div>
-                            </div>
-                        </div>`;
-      newCard.append(innerHTML);
-      $("#carouselHotel").append(newCard);
-    });
+    );
+    if (guide.ok) {
+      guideData = await guide.json();
+      guideData = guideData.data;
+    } else {
+      throw new Error("Network response was not ok in Guide data");
+    }
 
     vehicleData.forEach((element, index) => {
       var newCard = $("<div>").addClass("carousel-item ");
@@ -206,7 +174,7 @@ $("document").ready(async function () {
 
                                     <button class="btn btn-primary ms-4 mt-4">See more Images</button>
                                     <button class="btn btn-success  mt-4 position-relative" style="left: 5rem;"
-                                        onclick="selectedHotel('${element.hotelId}')">
+                                        onclick="selectedVehicle('${element.vehicleId}')">
                                         <i class="fa fa-shopping-cart me-2" aria-hidden="true"></i> Select</button>
                                 </div>
                             </div>
@@ -218,12 +186,137 @@ $("document").ready(async function () {
 
     console.log("hotelData:", hotelData);
     console.log("vehicleData:", vehicleData);
+
+    guideData.forEach((element, index) => {
+      const newCard = $("<div>").addClass("carousel-item ");
+      if (index === 0) {
+        newCard.addClass("active");
+      }
+      var innerHTML = `
+   
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
+                                <div class="col-md-7">
+                                    <div class="img-thumbnail ms-1" style="background: url('data:image/jpg;base64,${element.guideImage}') no-repeat; 
+                                                                    background-size: cover;
+                                                                    margin-top: 2vh;
+                                                                    padding: 2rem;
+                                                                        height: 52vh;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="name mt-3 text-center text-dark">Guide Details</div>
+
+                                    <div style="margin-top: 5rem;">
+                                        <div class="row mt-2">
+                                            <div class="col">Name :</div>
+                                            <div class="col">${element.guideName}</div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">Age :</div>
+                                            <div class="col">${element.guideAge}</div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">Email :</div>
+                                            <div class="col">${element.guideEmail}</div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">Gender :</div>
+                                            <div class="col">${element.guideGender}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div>
+                              <button class="btn btn-success position-absolute" style="top:20rem;left:53rem" onclick="(guideSelected('${element.guideId}'))">
+                                Select
+                              </button>
+                            </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    
+                    `;
+      if (index === 0) {
+      }
+
+      $("#carouselGuide").append(innerHTML);
+    });
   } catch (error) {
     console.log(error);
   }
 });
 
+function initMap() {
+  var location = { lat: 47.6062095, lng: -122.3320708 };
+  var map = new google.maps.Map($("#map"), {
+    zoom: 15,
+    center: location,
+  });
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map,
+  });
+}
+
+$(".progress .progress-bar").css("width", function () {
+  return $(this).attr("aria-valuenow") + "%";
+});
+
 function selectedHotel(hotelId) {
   console.log(hotelId);
   console.log("selected");
+}
+
+function guideSelected(guide) {
+  console.log(guide);
+  console.log("selected");
+  guideData.forEach((element) => {
+    if (element.guideId === guide) {
+      $("#guideName").val(element.guideName);
+      $("#guideEmail").val(element.guideEmail);
+      $("#guideAge").val(element.guideAge);
+    }
+  });
+}
+
+function selectedVehicle(vehicleId) {
+  console.log(vehicleId);
+  console.log("selected");
+  vehicleData.forEach((element) => {
+    if (element.vehicleId === vehicleId) {
+      $("#vehicleBrand").val(element.brand);
+      $("#vehicleNumber").val(element.vehicleNumber);
+      $("#seatingCapacity").val(element.seatingCapacity);
+      $("#driverName").val(element.name);
+    }
+  });
+}
+
+function handleDropdownPackage(package) {
+  console.log(package);
+
+  switch (package) {
+    case "doubleFullBoardPrice":
+      $("#packageName").val("Double Full Board Package");
+      $("#packagePrice").val(hotelData.doubleFullBoardPrice);
+      $("#packaeDiscount").val("0");
+      break;
+    case "doubleHalfBoardPrice":
+      $("#packageName").val("Double Half Board Package");
+      $("#packagePrice").val(hotelData.doubleHalfBoardPrice);
+      $("#packaeDiscount").val("0");
+      break;
+    case "tripleHalfBoardPrice":
+      $("#packageName").val("Triple Half Board Package");
+      $("#packagePrice").val(hotelData.tripleHalfBoardPrice);
+      $("#packaeDiscount").val("0");
+      break;
+    case "tripleFullBoardPrice":
+      $("#packageName").val("Triple Full Board Package");
+      $("#packagePrice").val(hotelData.tripleFullBoardPrice);
+      $("#packaeDiscount").val("0");
+      break;
+  }
 }
