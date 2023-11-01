@@ -97,7 +97,7 @@ $('#addGuideButton').click(function (event) {
 
         var formdata = new FormData();
         formdata.append("guideName", $('#guideForm input[name="name"]').val());
-        formdata.append("guideAddress", $('#guideForm input[name="address"]').val());
+        formdata.append("guideAddress", $('#addAddress').val());
         formdata.append("guideContact", $('#guideForm input[name="contact"]').val());
         formdata.append("guideEmail", $('#guideForm input[type="email"]').val());
         formdata.append("guideAge", $('input[name="age"]').val());
@@ -255,7 +255,7 @@ function validateEmail(email) {
 }
 
 
-function deleteGuide( id) {
+function deleteGuide(id) {
     console.log(id)
 
     $('#deleteGuideModal').modal('show');
@@ -304,6 +304,182 @@ function deleteGuide( id) {
     });
 }
 
-function updateGuide(id) {
+const validateUpdateForm = () => {
+    var name = $('#updateGuideForm input[name="name"]').val();
+    var age = $('#updateGuideForm input[name="age"]').val();
+    var email = $('#updateGuideForm input[type="email"]').val();
+    var address = $('#updateGuideForm textarea').val();
+    var contact = $('#updateGuideForm input[type="tel"]').val();
+    var guideImage = $('#updateGuideForm input[type="file"][name="GuideImage"]').val();
+    var guideIdFront = $('#updateGuideForm input[type="file"][name="GuideIdFront"]').val();
+    var guideIdBack = $('#updateGuideForm input[type="file"][name="GuideIdBack"]').val();
+    var guideNicFront = $('#updateGuideForm input[type="file"][name="GuideNicFront"]').val();
+    var guideNicBack = $('#updateGuideForm input[type="file"][name="GuideNicBack"]').val();
+    var valuePerDay = $('#updateGuideForm input[type="number"][name="ValuePerDay"]').val();
 
+
+    console.log(name, email, address, contact, guideImage, guideIdFront, guideIdBack, guideNicFront, guideNicBack, valuePerDay)
+
+    if (name.trim() === '') {
+        $('#updateGuideForm input[name="name"]').next('.error-message').text('Name cannot be empty');
+        $('#updateGuideForm input[name="name"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[name="name"]').next('.error-message').text('');
+    }
+
+    if (address.trim() === '') {
+        $('#updateGuideForm textarea').next('.error-message').text('Address cannot be empty');
+        $('#updateGuideForm textarea').focus();
+        return false;
+    } else {
+        $('#updateGuideForm textarea').next('.error-message').text('');
+    }
+
+    if (contact.trim() === '') {
+        $('#updateGuideForm input[type="tel"]').next('.error-message').text('Contact cannot be empty');
+        $('#updateGuideForm input[type="tel"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="tel"]').next('.error-message').text('');
+    }
+
+    if (parseFloat(age) <= 0 || isNaN(age)) {
+        $('#updateGuideForm input[name="age"]').next('.error-message').text('Age is not valid');
+        return false;
+    } else {
+        $('#updateGuideForm input[name="age"]').next('.error-message').text('');
+    }
+    if (!validateEmail(email)) {
+        $('#updateGuideForm input[type="email"]').next('.error-message').text('Email is not valid');
+        $('#updateGuideForm input[type="email"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="email"]').next('.error-message').text('');
+    }
+
+
+    if (!guideImage) {
+        $('#updateGuideForm input[type="file"][name="GuideImage"]').next('.error-message').text('Guide image is required');
+        $('#updateGuideForm input[type="file"][name="GuideImage"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="file"][name="GuideImage"]').next('.error-message').text('');
+    }
+
+    if (isNaN(valuePerDay) || parseFloat(valuePerDay) <= 0) {
+        $('#updateGuideForm input[type="number"][name="ValuePerDay"]').next('.error-message').text('Value per day is not valid');
+        $('#updateGuideForm input[type="number"][name="ValuePerDay"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="number"][name="ValuePerDay"]').next('.error-message').text('');
+    }
+
+    if (!guideIdFront) {
+        $('#updateGuideForm input[type="file"][name="GuideIdFront"]').next('.error-message').text('Guide ID front image is required');
+        $('#updateGuideForm input[type="file"][name="GuideIdFront"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="file"][name="GuideIdFront"]').next('.error-message').text('');
+    }
+
+    if (!guideIdBack) {
+        $('#updateGuideForm input[type="file"][name="GuideIdBack"]').next('.error-message').text('Guide ID back image is required');
+        $('#updateGuideForm input[type="file"][name="GuideIdBack"]').focus();
+        return false;
+    }
+    {
+        $('#updateGuideForm input[type="file"][name="GuideIdBack"]').next('.error-message').text('');
+    }
+
+    if (!guideNicFront) {
+        $('#updateGuideForm input[type="file"][name="GuideNicFront"]').next('.error-message').text('Guide NIC front image is required');
+        $('#updateGuideForm input[type="file"][name="GuideNicFront"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="file"][name="GuideNicFront"]').next('.error-message').text('');
+    }
+
+    if (!guideNicBack) {
+        $('#updateGuideForm input[type="file"][name="GuideNicBack"]').next('.error-message').text('Guide NIC back image is required');
+        $('#updateGuideForm input[type="file"][name="GuideNicBack"]').focus();
+        return false;
+    } else {
+        $('#updateGuideForm input[type="file"][name="GuideNicBack"]').next('.error-message').text('');
+    }
+
+    return true;
+
+};
+
+function setData(id) {
+
+
+    guideList.forEach((element) => {
+        if (element.guideId === id) {
+            $('#updateGuideForm input[name="name"]').val(element.guideName);
+            $('#updateAddress').val(element.guideAddress);
+            $('#updateGuideForm input[name="contact"]').val(element.guideContact);
+            $('#updateGuideForm input[type="email"]').val(element.guideEmail);
+            $('#updateGuideForm input[name="age"]').val(element.guideAge);
+            $('#updateGuideForm input[name="ValuePerDay"]').val(element.val_per_day);
+            $('#updateGuideForm input[name="available"]').val(element.isAvailable);
+            $('#updateGuideForm input[name="exp"]').val(element.experience);
+            $('#updateGuideForm input[name="gender"]').val(element.guideGender);
+
+        }
+    })
+
+}
+
+function updateGuide(id) {
+    console.log(id)
+    $('#updateGuideModal').modal('show');
+    setData(id)
+    $('#updateGuide').click(function (event) {
+        if (validateUpdateForm()) {
+
+
+            var formdata = new FormData();
+            formdata.append("guideName", $('#updateGuideForm input[name="name"]').val());
+            formdata.append("guideAddress", $('#updateAddress').val());
+            formdata.append("guideContact", $('#updateGuideForm input[name="contact"]').val());
+            formdata.append("guideEmail", $('#updateGuideForm input[type="email"]').val());
+            formdata.append("guideAge", $('#updateGuideForm input[name="age"]').val());
+            formdata.append("guideGender", "MALE");
+            formdata.append("val_per_day", $('#updateGuideForm input[name="ValuePerDay"]').val());
+            formdata.append("isAvailable", $('#updateGuideForm input[name="available"]').val());
+            formdata.append("experience", $('#updateGuideForm input[name="exp"]').val());
+            formdata.append("guideImage", $('#updateGuideForm input[name="GuideImage"]')[0].files[0]);
+            formdata.append("nic_front_image", $('#updateGuideForm input[name="GuideNicFront"]')[0].files[0]);
+            formdata.append("nic_back_image", $('#updateGuideForm input[name="GuideNicBack"]')[0].files[0]);
+            formdata.append("guide_id_front_image", $('#updateGuideForm input[name="GuideIdFront"]')[0].files[0]);
+            formdata.append("guide_id_back_image", $('#updateGuideForm input[name="GuideIdBack"]')[0].files[0]);
+
+            var requestOptions = {
+                method: 'PUT',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8085/api/v1/guide/update?id=${id}`, requestOptions)
+                .then(function (response) {
+                    if (response.ok) {
+                        toastr.success('Guide updated successfully')
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                })
+                .then(function (data) {
+                    $('#updateGuideModal').modal('hide');
+                    console.log('Data sent successfully:', data);
+                })
+                .catch(function (error) {
+                    toastr.info('Error when updating')
+                    console.error('Error:', error);
+                }).finally(function () {
+                $('#updateGuideModal').modal('hide');
+            });
+        }
+    });
 }
