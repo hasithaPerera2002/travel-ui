@@ -533,7 +533,6 @@ function updateVehicle(id) {
         console.log('update')
         if (validateUpdateForm()) {
 
-            console.log('came here')
 
             var formdata = new FormData();
             formdata.append("brand",$('#updateVehicleForm input[name="brand"]').val());
