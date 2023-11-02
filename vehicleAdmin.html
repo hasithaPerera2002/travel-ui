@@ -1,10 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Vehicle</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="styles/vehicleAdmin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+          integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
 </head>
+
 <body>
-$END$
+<div class="container-fluid">
+    <div id="toast-container" class="toast-top-right"></div>
+    <div class="spinner-div">
+        <div class="spinner-border m-5 z-5  " id="spinner" role="status">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 hero-text text-center pt-4 " style="height: 10rem;">
+            <h1>Vehicle Admin</h1>
+        </div>
+        <div class="col-md-10 ">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th colspan="14" class="text-center">Vehicle Details</th>
+                    <th colspan="3">
+                        <button class="btn btn-success text-end">
+                            <a href="#addVehicleModal" data-toggle="modal">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Add Vehicle</a></button>
+                        </a>
+
+                    </th>
+
+                </tr>
+                <tr>
+                    <th>VehicleId</th>
+                    <th>Brand</th>
+                    <th>Transmission</th>
+                    <th>Category</th>
+                    <th>FuelType</th>
+                    <th>Available</th>
+                    <th>Seating</th>
+                    <th>dailyRate</th>
+                    <th>VehicleType</th>
+                    <th>Vehicle Number</th>
+                    <th>remarks</th>
+                    <th>PriceForKm</th>
+                    <th>Fueling</th>
+                    <th>Hybrid</th>
+                    <th>FrontView</th>
+                    <th>SideView</th>
+                    <th>BackView</th>
+                    <th>FrontInterior</th>
+                    <th>BackInterior</th>
+                    <th>DriverName</th>
+                    <th>LicenseFront</th>
+                    <th>LicenseBack</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Add Modal HTML -->
+<div id="addVehicleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="addVehicleForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Hotel</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" name="brand" class="form-control" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Transmission</label>
+                        <select id="transmission" class="form-control">
+                            <option value="AUTO">Auto</option>
+                            <option value="MANUAL">Manual</option>
+                        </select>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="category" class="form-control">
+                            <option value="SUPER_LUXURY">Super Luxury</option>
+                            <option value="LUXURY">Luxury</option>
+                            <option value="MID_RANGE">Mid Range</option>
+                            <option value="ECONOMY">Economy</option>
+                        </select>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Transmission</label>
+                        <select id="fuelType" class="form-control">
+                            <option value="PETROL">Petrol</option>
+                            <option value="DIESEL">Diesel</option>
+                        </select>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Available</label>
+                        <input type="checkbox" class="form-control" name="available" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Seating Capacity</label>
+
+                        <input type="number" class="form-control" name="seating" required>
+                        <span class="text-danger error-message"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Daily Rate</label>
+
+                        <input type="number" name="dailyRate" class="form-control" required>
+                        <span class="text-danger error-message"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select  id="vehicleType" class="form-control">
+                            <option value="CAR">Car</option>
+                            <option value="VAN">Van</option>
+                            <option value="SUV">Suv</option>
+                            <option value="BUS">Bus</option>
+                        </select>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label>Vehicle Number</label>
+                        <input type="text" class="form-control" name="vehicleNumber" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Hybrid</label>
+                        <input type="checkbox" class="form-control" name="hybrid" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Remarks</label>
+                        <input type="text" class="form-control" name="remarks" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Price For KM</label>
+                        <label>
+                            <input type="number" name="priceForKm" class="form-control" required>
+                            <span class="text-danger error-message"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Fuel Consumption</label>
+                        <input type="number" name="fuelConsumption" class="form-control">
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Front View</label>
+                        <input type="file" class="form-control" name="frontView" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Back View</label>
+                        <input type="file" class="form-control" name="backView" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Side View</label>
+                        <input type="file" class="form-control" name="sideView" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Front Interior</label>
+                        <input type="file" class="form-control" name="frontInt" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Back Interior</label>
+                        <input type="file" class="form-control" name="backInt" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>License Front</label>
+                        <input type="file" class="form-control" name="licenseFront" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>License Back</label>
+                        <input type="file" class="form-control" name="licenseBack" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Drive Name</label>
+                        <input type="text" class="form-control" name="driverName" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Drive Contact</label>
+                        <input type="tel" class="form-control" name="contactNumber" required>
+                        <span class="text-danger error-message"></span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" class="btn btn-success" value="Add" id="addVehicleButton">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal HTML -->
+<div id="updateVehicleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="updateVehicleForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Hotel</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" name="brand" class="form-control" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Transmission</label>
+                    <select id="updateTransmission" class="form-control">
+                        <option value="AUTO">Auto</option>
+                        <option value="MANUAL">Manual</option>
+                    </select>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="updateCategory" class="form-control">
+                        <option value="SUPER_LUXURY">Super Luxury</option>
+                        <option value="LUXURY">Luxury</option>
+                        <option value="MID_RANGE">Mid Range</option>
+                        <option value="ECONOMY">Economy</option>
+                    </select>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Transmission</label>
+                    <select id="updateFuelType" class="form-control">
+                        <option value="PETROL">Petrol</option>
+                        <option value="DIESEL">Diesel</option>
+                    </select>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Available</label>
+                    <input type="checkbox" class="form-control" name="available" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Seating Capacity</label>
+
+                    <input type="number" class="form-control" name="seating" required>
+                    <span class="text-danger error-message"></span>
+
+                </div>
+                <div class="form-group">
+                    <label>Daily Rate</label>
+
+                    <input type="number" name="dailyRate" class="form-control" required>
+                    <span class="text-danger error-message"></span>
+
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select  id="updateVehicleType" class="form-control">
+                        <option value="CAR">Car</option>
+                        <option value="VAN">Van</option>
+                        <option value="SUV">Suv</option>
+                        <option value="BUS">Bus</option>
+                    </select>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group ">
+                    <label>Vehicle Number</label>
+                    <input type="text" class="form-control" name="vehicleNumber" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Hybrid</label>
+                    <input type="checkbox" class="form-control" name="hybrid" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <input type="text" class="form-control" name="remarks" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Price For KM</label>
+                    <label>
+                        <input type="number" name="priceForKm" class="form-control" required>
+                        <span class="text-danger error-message"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Fuel Consumption</label>
+                    <input type="number" name="fuelConsumption" class="form-control">
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Front View</label>
+                    <input type="file" class="form-control" name="frontView" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Back View</label>
+                    <input type="file" class="form-control" name="backView" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Side View</label>
+                    <input type="file" class="form-control" name="sideView" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Front Interior</label>
+                    <input type="file" class="form-control" name="frontInt" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Back Interior</label>
+                    <input type="file" class="form-control" name="backInt" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>License Front</label>
+                    <input type="file" class="form-control" name="licenseFront" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>License Back</label>
+                    <input type="file" class="form-control" name="licenseBack" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Drive Name</label>
+                    <input type="text" class="form-control" name="driverName" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label>Drive Contact</label>
+                    <input type="tel" class="form-control" name="contactNumber" required>
+                    <span class="text-danger error-message"></span>
+                </div>
+
+        </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-info" value="updateVehicle" id="updateVehicle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteVehicleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Hotel</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete these Records?</p>
+                    <p class="text-warning"><small>This action cannot be undone.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Delete" id="confirmDelete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="scritps/vehicleAdmin.js"></script>
+<script src="fontawesome-free-6.4.2-web/js/all.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>
