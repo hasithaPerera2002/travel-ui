@@ -2,117 +2,122 @@ let hotelData;
 let vehicleData;
 let guideData;
 let noOfDays;
+let packageType;
 
 $("#dateRangeError").hide();
 $("#adultError").hide();
 $("#childrenError").hide();
 $("#vehicleBrandError").hide();
 $("#vehicleNumberError").hide();
+$('#paymentProofError').hide();
+$('#packageError').hide()
 $(".spinner-div").show();
 
 $("#rangeDate").flatpickr({
-  mode: "range",
-  dateFormat: "Y-m-d",
-  minDate: "today",
-  onChange: function (selectedDates, dateStr, instance) {
-    if (selectedDates.length === 2) {
-      var startDate = selectedDates[0];
-      var endDate = selectedDates[1];
+    mode: "range",
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    onChange: function (selectedDates, dateStr, instance) {
+        if (selectedDates.length === 2) {
+            var startDate = selectedDates[0];
+            var endDate = selectedDates[1];
 
-      $("#startDate").val(startDate.toLocaleDateString("en-GB"));
-      $("#endDate").val(endDate.toLocaleDateString("en-GB"));
+            $("#startDate").val(startDate.toLocaleDateString("en-GB"));
+            $("#endDate").val(endDate.toLocaleDateString("en-GB"));
 
-      var timeDifference = endDate.getTime() - startDate.getTime();
-      var dayDifference = timeDifference / (1000 * 3600 * 24);
+            var timeDifference = endDate.getTime() - startDate.getTime();
+            var dayDifference = timeDifference / (1000 * 3600 * 24);
 
-      noOfDays = Math.round(dayDifference);
+            noOfDays = Math.round(dayDifference);
 
-      $("#totalDates").val(noOfDays);
-      console.log(noOfDays);
-    }
-  },
+            $("#totalDates").val(noOfDays);
+            console.log(noOfDays);
+        }
+    },
 });
 $("document").ready(async function () {
-  try {
-    const currentURL = window.location.href;
+    try {
+        const currentURL = window.location.href;
 
-    const searchParams = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams(window.location.search);
 
-    let placeName = "Kandy_and_Upcountry";
-    let packageType = "LUXURY";
 
-    function getParameterByName(name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-      var results = regex.exec(location.search);
-      return results === null
-        ? ""
-        : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
 
-    let id = getParameterByName("hotelId");
-    // let packageType = getParameterByName("packageType");
+         packageType = "SUPER_LUXURY";
 
-    console.log("id:", id);
-    console.log("packageType:", packageType);
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+            var results = regex.exec(location.search);
+            return results === null
+                ? ""
+                : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
 
-    // fetching data from the server
-    let hotel = await fetch(
-      `http://localhost:8082/api/v1/hotels/search?id=${id}`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
-      }
-    );
-    if (hotel.ok) {
-      hotelData = await hotel.json();
-      hotelData = hotelData.data;
-      console.log(hotelData);
-    } else {
-      throw new Error("Network response was not ok in hotel data");
-    }
+       // let id = getParameterByName("hotelId");
+        let id='653a7265ab613758d1371216'
+       // let packageType = getParameterByName("packageType");
 
-    let vehicle = await fetch(
-      `http://localhost:8084/api/v1/vehicles/search/available?category=${packageType}`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
-      }
-    );
-    if (vehicle.ok) {
-      vehicleData = await vehicle.json();
-      vehicleData = vehicleData.data;
-    } else {
-      throw new Error("Network response was not ok in vehicle data");
-    }
+        console.log("id:", id);
+        console.log("packageType:", packageType);
 
-    let guide = await fetch(
-      `http://localhost:8085/api/v1/guide/all/available`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
-      }
-    );
-    if (guide.ok) {
-      guideData = await guide.json();
-      guideData = guideData.data;
-    } else {
-      throw new Error("Network response was not ok in Guide data");
-    }
+        // fetching data from the server
+        let hotel = await fetch(
+            `http://localhost:8082/api/v1/hotels/search?id=${id}`,
+            {
+                method: "GET",
+                mode: "cors",
+                headers: {},
+            }
+        );
+        if (hotel.ok) {
+            hotelData = await hotel.json();
+            hotelData = hotelData.data;
+            console.log(hotelData);
+        } else {
+            throw new Error("Network response was not ok in hotel data");
+        }
 
-    vehicleData.forEach((element, index) => {
-      var newCard = $("<div>").addClass("carousel-item ");
+        let vehicle = await fetch(
+            `http://localhost:8084/api/v1/vehicles/search/available?category=${packageType}`,
+            {
+                method: "GET",
+                mode: "cors",
+                headers: {},
+            }
+        );
+        if (vehicle.ok) {
+            vehicleData = await vehicle.json();
+            vehicleData = vehicleData.data;
+        } else {
+            throw new Error("Network response was not ok in vehicle data");
+        }
 
-      if (index === 0) {
-        newCard.addClass("active");
-      }
+        let guide = await fetch(
+            `http://localhost:8085/api/v1/guide/all/available`,
+            {
+                method: "GET",
+                mode: "cors",
+                headers: {},
+            }
+        );
+        if (guide.ok) {
+            guideData = await guide.json();
+            guideData = guideData.data;
+        } else {
+            throw new Error("Network response was not ok in Guide data");
+        }
 
-      newCard.attr("data-package-id", element.vehicleId);
+        vehicleData.forEach((element, index) => {
+            var newCard = $("<div>").addClass("carousel-item ");
 
-      var innerHtml = ` <div class="carsoul-item ">
+            if (index === 0) {
+                newCard.addClass("active");
+            }
+
+            newCard.attr("data-package-id", element.vehicleId);
+
+            var innerHtml = ` <div class="carsoul-item ">
                         <div class="row">
                             <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
                                 <div class="col-md-7">
@@ -181,19 +186,19 @@ $("document").ready(async function () {
                             </div>
                         </div>
                     </div>`;
-      newCard.append(innerHtml);
-      $("#carouselVehicle").append(newCard);
-    });
+            newCard.append(innerHtml);
+            $("#carouselVehicle").append(newCard);
+        });
 
-    console.log("hotelData:", hotelData);
-    console.log("vehicleData:", vehicleData);
+        console.log("hotelData:", hotelData);
+        console.log("vehicleData:", vehicleData);
 
-    guideData.forEach((element, index) => {
-      const newCard = $("<div>").addClass("carousel-item ");
-      if (index === 0) {
-        newCard.addClass("active");
-      }
-      var innerHTML = `
+        guideData.forEach((element, index) => {
+            const newCard = $("<div>").addClass("carousel-item ");
+            if (index === 0) {
+                newCard.addClass("active");
+            }
+            var innerHTML = `
    
                         <div class="row">
                             <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
@@ -239,89 +244,193 @@ $("document").ready(async function () {
                     </div>
                     
                     `;
-      if (index === 0) {
-      }
+            if (index === 0) {
+            }
 
-      $("#carouselGuide").append(innerHTML);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  $(".spinner-div").hide();
+            $("#carouselGuide").append(innerHTML);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    $(".spinner-div").hide();
 });
 
 function initMap() {
-  var location = { lat: 47.6062095, lng: -122.3320708 };
-  var map = new google.maps.Map($("#map"), {
-    zoom: 15,
-    center: location,
-  });
-  var marker = new google.maps.Marker({
-    position: location,
-    map: map,
-  });
+    var location = {lat: 47.6062095, lng: -122.3320708};
+    var map = new google.maps.Map($("#map"), {
+        zoom: 15,
+        center: location,
+    });
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+    });
 }
 
 $(".progress .progress-bar").css("width", function () {
-  return $(this).attr("aria-valuenow") + "%";
+    return $(this).attr("aria-valuenow") + "%";
 });
 
 function selectedHotel(hotelId) {
-  console.log(hotelId);
-  console.log("selected");
+    console.log(hotelId);
+    console.log("selected");
 }
 
 function guideSelected(guide) {
-  console.log(guide);
-  console.log("selected");
-  guideData.forEach((element) => {
-    if (element.guideId === guide) {
-      $("#guideName").val(element.guideName);
-      $("#guideEmail").val(element.guideEmail);
-      $("#guideAge").val(element.guideAge);
-    }
-  });
+    console.log(guide);
+    console.log("selected");
+    guideData.forEach((element) => {
+        if (element.guideId === guide) {
+            $("#guideName").val(element.guideName);
+            $("#guideEmail").val(element.guideEmail);
+            $("#guideAge").val(element.guideAge);
+        }
+    });
 }
 
 function selectedVehicle(vehicleId) {
-  console.log(vehicleId);
-  console.log("selected");
-  vehicleData.forEach((element) => {
-    if (element.vehicleId === vehicleId) {
-      $("#vehicleBrand").val(element.brand);
-      $("#vehicleNumber").val(element.vehicleNumber);
-      $("#seatingCapacity").val(element.seatingCapacity);
-      $("#driverName").val(element.name);
-    }
-  });
+    console.log(vehicleId);
+    console.log("selected");
+    vehicleData.forEach((element) => {
+        if (element.vehicleId === vehicleId) {
+            $("#vehicleBrand").val(element.brand);
+            $("#vehicleNumber").val(element.vehicleNumber);
+            $("#seatingCapacity").val(element.seatingCapacity);
+            $("#driverName").val(element.name);
+        }
+    });
 }
 
 function handleDropdownPackage(package) {
-  console.log(package);
+    console.log(package);
 
-  switch (package) {
-    case "doubleFullBoardPrice":
-      $("#packageName").val("Double Full Board Package");
-      $("#packagePrice").val(hotelData.doubleFullBoardPrice);
-      $("#packaeDiscount").val("0");
-      break;
-    case "doubleHalfBoardPrice":
-      $("#packageName").val("Double Half Board Package");
-      $("#packagePrice").val(hotelData.doubleHalfBoardPrice);
-      $("#packaeDiscount").val("0");
-      break;
-    case "tripleHalfBoardPrice":
-      $("#packageName").val("Triple Half Board Package");
-      $("#packagePrice").val(hotelData.tripleHalfBoardPrice);
-      $("#packaeDiscount").val("0");
-      break;
-    case "tripleFullBoardPrice":
-      $("#packageName").val("Triple Full Board Package");
-      $("#packagePrice").val(hotelData.tripleFullBoardPrice);
-      $("#packaeDiscount").val("0");
-      break;
-  }
+    switch (package) {
+        case "doubleFullBoardPrice":
+            $("#packageName").val("Double Full Board Package");
+            $("#packagePrice").val(hotelData.doubleFullBoardPrice);
+            $("#packaeDiscount").val("0");
+            break;
+        case "doubleHalfBoardPrice":
+            $("#packageName").val("Double Half Board Package");
+            $("#packagePrice").val(hotelData.doubleHalfBoardPrice);
+            $("#packaeDiscount").val("0");
+            break;
+        case "tripleHalfBoardPrice":
+            $("#packageName").val("Triple Half Board Package");
+            $("#packagePrice").val(hotelData.tripleHalfBoardPrice);
+            $("#packaeDiscount").val("0");
+            break;
+        case "tripleFullBoardPrice":
+            $("#packageName").val("Triple Full Board Package");
+            $("#packagePrice").val(hotelData.tripleFullBoardPrice);
+            $("#packaeDiscount").val("0");
+            break;
+    }
 }
+
+const validateData = () => {
+
+    if (!($("#paymentProof")[0].files[0])) {
+        $("#paymentProofError").show();
+        $("#paymentProof").focus();
+        return false;
+    } else {
+        $("#paymentProofError").hide();
+    }
+
+    if (!$("#startDate").val()) {
+        $("#dateRangeError").show();
+        $("#rangeDate").focus();
+        return false;
+    } else {
+        $("#dateRangeError").hide();
+    }
+
+    if (!$("#packageName").val()) {
+        $("#packageError").show();
+        $("#packageName").focus();
+        return false;
+    } else {
+        $("#packageError").hide();
+    }
+
+    if ($("#adultCount").val() < 0) {
+        $("#adultError").show();
+        $("#adultCount").focus();
+        return false;
+    } else {
+        $("#adultError").hide();
+    }
+
+
+    if (!$("#vehicleBrand").val()) {
+        $("#vehicleBrandError").show();
+        $("#vehicleBrand").focus();
+        return false;
+    } else {
+        $("#vehicleBrandError").hide();
+    }
+
+
+    return false;
+};
 $("#booking-btn").click(function () {
-  console.log("clicked");
+
+
+    console.log("clicked")
+    if (validateData()) {
+
+        var formdata = new FormData();
+        formdata.append("customerId", '5654656dd');
+        formdata.append("packageValue", $('#packagePrice').val());
+        formdata.append("guideId", guideData.guideId);
+        formdata.append("vehicleId",vehicleData.vehicleId);
+        formdata.append("isPaid", true);
+        formdata.append("bookingDate",$('#startDate').val());
+        formdata.append("bookingEndDate", $('#endDate').val());
+        formdata.append("paymentProof", $('#paymentProof')[0].files[0]);
+        formdata.append("noOfAdults", $('#adultCount').val());
+        formdata.append("noOfChildren", $('#childCount').val());
+        formdata.append("remark", $('#remark').val());
+        formdata.append("packageType", packageType);
+        formdata.append("hotelId", hotelData.hotelId);
+        formdata.append("hotelName", hotelData.hotelName);
+        formdata.append("placeName", hotelData.placeName);
+        formdata.append("packageName", $('#packageName').val());
+
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8081/api/v1/package/save", requestOptions)
+            .then(function (response) {
+                if (response.ok) {
+                    toastr.success('Package added successfully')
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then(function (data) {
+                $('#bookingModal').modal('show');
+
+                console.log('Data sent successfully:', data);
+            })
+            .catch(function (error) {
+
+                toastr.info('Error when adding')
+                console.error('Error:', error);
+            }).finally(function () {
+
+        });
+    }
 });
+$('#confirm').click(function () {
+        const encodedURL = `http://127.0.0.1:5501/index.html`;
+        window.open(encodedURL)
+
+    }
+
+)

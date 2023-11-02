@@ -1,6 +1,7 @@
 $(document).ready(function () {
   console.log("ready!");
   $("#spinner").hide();
+  sessionStorage.setItem("key", "value");
 });
 
 var owlPlugin = function () {
