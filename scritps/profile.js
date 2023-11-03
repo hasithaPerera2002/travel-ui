@@ -14,6 +14,12 @@ $("document").ready(async function () {
 
   $("#img").append(innerHtml);
 
+  if (sessionStorage.getItem("hasBooked") == "true") {
+    $("#btnCart").show();
+  } else {
+    $("#btnCart").hide();
+  }
+
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${sessionStorage.getItem("jwt")}`);
 

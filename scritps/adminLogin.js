@@ -86,4 +86,6 @@ function validateForm() {
 
   return true;
 }
-$("#login").modal("hide");
+$("#login").click(function () {
+  $("#errorModal").modal("hide");
+});

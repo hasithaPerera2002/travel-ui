@@ -5,6 +5,9 @@ let guide;
 let guideData;
 let noOfDays;
 let packageType;
+let bookingData;
+let hotelIdBooked;
+let vehicleIdBooked;
 
 $("#dateRangeError").hide();
 $("#adultError").hide();
@@ -40,43 +43,79 @@ $("#rangeDate").flatpickr({
 });
 $("document").ready(async function () {
   try {
-    const currentURL = window.location.href;
+    if (sessionStorage.getItem("hasBooked") !== "true") {
+      const currentURL = window.location.href;
 
-    const searchParams = new URLSearchParams(window.location.search);
+      const searchParams = new URLSearchParams(window.location.search);
 
-    // placeName = "Kandy_and_Upcountry";
-    // let packageType = "LUXURY";
+      // placeName = "Kandy_and_Upcountry";
+      // let packageType = "LUXURY";
 
-    function getParameterByName(name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-      var results = regex.exec(location.search);
-      return results === null
-        ? ""
-        : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-
-    let id = getParameterByName("hotelId");
-    packageType = getParameterByName("packageType");
-
-    console.log("id:", id);
-    console.log("packageType:", packageType);
-
-    // fetching data from the server
-    let hotel = await fetch(
-      `http://localhost:8082/api/v1/hotels/search?id=${id}`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
+      function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null
+          ? ""
+          : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
-    );
-    if (hotel.ok) {
-      hotelData = await hotel.json();
-      hotelData = hotelData.data;
-      console.log(hotelData);
+
+      let id = getParameterByName("hotelId");
+      packageType = getParameterByName("packageType");
+
+      console.log("id:", id);
+      console.log("packageType:", packageType);
+
+      // fetching data from the server
+      let hotel = await fetch(
+        `http://localhost:8082/api/v1/hotels/search?id=${id}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {},
+        }
+      );
+      if (hotel.ok) {
+        hotelData = await hotel.json();
+        hotelData = hotelData.data;
+        console.log(hotelData);
+      } else {
+        throw new Error("Network response was not ok in hotel data");
+      }
     } else {
-      throw new Error("Network response was not ok in hotel data");
+      // -------------------------------------------------  booking data here------------------------------------------------------------------------
+      let booking = await fetch(
+        `http://localhost:8081/api/v1/booking/getBookingByUser?id=${sessionStorage.getItem(
+          "userId"
+        )}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {},
+        }
+      );
+
+      if (booking.ok) {
+        bookingData = await booking.json();
+        bookingData = bookingData.data;
+        console.log(bookingData);
+
+        $("#startDate").val(bookingData.bookingDate);
+        $("#endDate").val(bookingData.bookingEndDate);
+        $("#adultCount").val(bookingData.noOfAdults);
+        $("#childCount").val(bookingData.noOfChildren);
+        $("#remark").val(bookingData.remark);
+        $("#packagePrice").val(bookingData.packageValue);
+        $("#packageName").val(bookingData.packageName);
+        $("#packageType").val(bookingData.packageType);
+        $("#totalDates").val(bookingData.noOfDays);
+
+        vehicleIdBooked = bookingData.vehicleId;
+        hotelIdBooked = bookingData.hotelId;
+        packageType = bookingData.packageType;
+      } else {
+        throw new Error("Network response was not ok in booking data");
+      }
     }
 
     let vehicle = await fetch(
