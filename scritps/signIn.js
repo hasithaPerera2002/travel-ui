@@ -4,12 +4,19 @@ function validateForm() {
   console.log("validateForm");
   // Get form field values
   var firstName = document.getElementById("firstName").value;
+  var secondName = document.getElementById("secondName").value;
   var email = document.getElementById("email").value;
   var age = document.getElementById("age").value;
   var contactNumber = document.getElementById("contactNumber").value;
   var address = document.getElementById("address").value;
   var password = document.getElementById("password").value;
   var nicNumber = document.getElementById("nicNumber").value;
+  var backImg = $("#backImageOfNIC")[0].files[0];
+  var frontImg = $("#frontImageOfNIC")[0].files[0];
+  var profilePic = $("#profilePicture")[0].files[0];
+  var maleRadio = document.getElementById("male");
+  var femaleRadio = document.getElementById("female");
+  var genderError = document.getElementById("genderError");
 
   // Define regular expressions for validation
   var nameRegex = /^[A-Za-z]+$/;
@@ -22,73 +29,101 @@ function validateForm() {
 
   // Validation checks
   if (!nameRegex.test(firstName)) {
+    $("#firstName").focus();
     $("#firstNameError").show();
     return false;
   } else {
     $("#firstNameError").hide();
   }
-
-  if (!emailRegex.test(email)) {
-    $("#email")
-      .next(".error-message")
-      .text("Email should be a valid email address.");
+  if (!nameRegex.test(secondName)) {
+    $("#secondName").focus();
+    $("#secondNameError").show();
     return false;
   } else {
-    $("#email").next(".error-message").text("");
+    $("#secondNameError").hide();
+  }
+
+  if (!emailRegex.test(email)) {
+    $("#email").focus();
+    $("#emailError").show();
+    return false;
+  } else {
+    $("#emailError").hide();
   }
 
   if (!ageRegex.test(age) || age < 18 || age > 80) {
-    $("#age")
-      .next(".error-message")
-      .text("Age should be a positive integer between 18 and 80.");
+    $("#age").focus();
+    $("#ageError").show();
     return false;
   } else {
-    $("#age").next(".error-message").text("");
+    $("#ageError").hide();
   }
 
-  if (contactNumber.length > 20 || !contactNumberRegex.test(contactNumber)) {
-    $("#contactNumber")
-      .next(".error-message")
-      .text("Contact number should not exceed 20 characters.");
+  if (
+    contactNumber.length > 20 ||
+    !contactNumberRegex.test(contactNumber) ||
+    contactNumber.length == 0
+  ) {
+    $("#contactNumber").focus();
+    $("#contactError").show();
     return false;
   } else {
-    $("#contactNumber").next(".error-message").text("");
+    $("#contactError").hide();
   }
 
-  if (address.length > addressMaxLength) {
-    $("#address")
-      .next(".error-message")
-      .text("Address should not exceed " + addressMaxLength + " characters.");
+  if (address.length > addressMaxLength || address.length == 0) {
+    $("#address").focus();
+    $("#addressError").show();
     return false;
   } else {
-    $("#address").next(".error-message").text("");
+    $("#addressError").hide();
   }
 
   if (!passwordRegex.test(password)) {
-    $("#password")
-      .next(".error-message")
-      .text(
-        "Password should contain at least one letter and one number, with a minimum of eight characters."
-      );
+    $("#password").focus();
+    $("#passwordError").show();
     return false;
   } else {
-    $("#password").next(".error-message").text("");
+    $("#passwordError").hide();
   }
 
   if (nicNumber.length < nicNumberMinLength) {
-    $("#nicNumber")
-      .next(".error-message")
-      .text(
-        "NIC number should not be less than " +
-          nicNumberMinLength +
-          "else " +
-          nicNumberMinLength +
-          " characters."
-      );
-  } else {
-    $("#nicNumber").next(".error-message").text("");
-
+    $("#nicNumber").focus();
+    $("#nicNumberError").show();
     return false;
+  } else {
+    $("#nicNumberError").hide();
+  }
+
+  if (!backImg) {
+    $("#backImageOfNIC").focus();
+    $("#backError").show();
+    return false;
+  } else {
+    $("#backError").hide();
+  }
+
+  if (!frontImg) {
+    $("#frontImageOfNIC").focus();
+    $("#frontError").show();
+    return false;
+  } else {
+    $("#frontError").hide();
+  }
+
+  if (!profilePic) {
+    $("#profilePicture").focus();
+    $("#profilePictureError").show();
+    return false;
+  } else {
+    $("#profilePictureError").hide();
+  }
+  if (!maleRadio.checked && !femaleRadio.checked) {
+    genderError.style.display = "block";
+    return false;
+  } else {
+    // Either "Male" or "Female" is selected, clear the error message
+    genderError.style.display = "none";
   }
 
   // If all checks pass, the form will be submitted
@@ -100,5 +135,34 @@ document
   .addEventListener("click", function (event) {
     event.preventDefault();
 
-    validateForm();
+    if (validateForm()) {
+      var formdata = new FormData();
+      formdata.append("firstName", $("#firstName").val());
+      formdata.append("secondName", $("#secondName").val());
+      formdata.append("password", $("#password").val());
+      formdata.append("email", $("#email").val());
+      formdata.append("age", $("#age").val());
+      formdata.append("contactNumber", $("#contactNumber").val());
+      formdata.append("address", $("#address").val());
+      formdata.append("role", "USER");
+      formdata.append("nicNumber", $("#nicNumber").val());
+      formdata.append("gender", $("#male").is(":checked") ? "MALE" : "FEMALE");
+      formdata.append("profilePicture", $("#profilePicture")[0].files[0]);
+      formdata.append("backImageOfNIC", $("#backImageOfNIC")[0].files[0]);
+      formdata.append("frontImageOfNIC", $("#frontImageOfNIC")[0].files[0]);
+
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
+
+      fetch("http://localhost:8080/api/v1/user/register", requestOptions)
+        .then((response) => {
+          response.text();
+          $("#bookingModal").modal("show");
+        })
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+    }
   });

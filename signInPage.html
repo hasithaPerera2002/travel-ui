@@ -40,7 +40,7 @@
                             <input type="text" class="form-control form-input" id="secondName" name="secondName"
                                 required>
                             <!-- Validation Error Message -->
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
+                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="secondNameError"
                                 role="alert">Username should be a valid username</div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <label for="email">Email</label>
                             <input type="email" class="form-control form-input" id="email" name="email" required>
                             <!-- Validation Error Message -->
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
+                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="emailError"
                                 role="alert">Email should be a valid email address</div>
                         </div>
 
@@ -60,14 +60,13 @@
                             <label for="age">Age</label>
                             <input type="number" class="form-control form-input" id="age" name="age" required>
                             <!-- Validation Error Messages -->
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
-                                role="alert">Age should be a positive integer</div>
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
-                                role="alert">Age should be greater than or equal to 18</div>
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
-                                role="alert">Age should be less than or equal to 80</div>
+                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="ageError" role="alert">
+                                Age should be less than or equal to 80 and greater than 18
+                            </div>
+
                         </div>
                     </div>
+
 
 
                     <!-- Contact Number -->
@@ -76,7 +75,7 @@
                         <input type="text" class="form-control form-input" id="contactNumber" name="contactNumber"
                             required>
                         <!-- Validation Error Message -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="contactError" role="alert">
                             Contact number should not exceed 20 characters</div>
                     </div>
 
@@ -85,7 +84,7 @@
                         <label for="address">Address</label>
                         <textarea class="form-control" id="address" name="address" rows="4" required></textarea>
                         <!-- Validation Error Message -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="addressError" role="alert">
                             Address should not exceed 100 characters</div>
                     </div>
 
@@ -95,7 +94,8 @@
                         <label for="profilePicture">Profile Picture</label>
                         <input type="file" class="form-control-file" id="profilePicture" name="profilePicture" required>
                         <!-- Validation Error Message -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="profilePictureError"
+                            role="alert">
                             Profile picture cannot be null</div>
                     </div>
 
@@ -113,10 +113,11 @@
                                     value="FEMALE" required>
                                 <label class="custom-control-label" for="female">Female</label>
                             </div>
+
                         </div>
 
                         <!-- Validation Error Message -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="genderError" role="alert">
                             Gender cannot be null</div>
                     </div>
 
@@ -136,8 +137,9 @@
                             <input type="file" class="form-control-file" id="frontImageOfNIC" name="frontImageOfNIC"
                                 required>
                             <!-- Validation Error Message -->
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
-                                role="alert">Front image of NIC cannot be null</div>
+                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="frontError"
+                                role="alert">Front
+                                image of NIC cannot be null</div>
                         </div>
 
                         <!-- Back Image of NIC -->
@@ -146,8 +148,9 @@
                             <input type="file" class="form-control-file" id="backImageOfNIC" name="backImageOfNIC"
                                 required>
                             <!-- Validation Error Message -->
-                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError"
-                                role="alert">Back image of NIC cannot be null</div>
+                            <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="backError" role="alert">
+                                Back
+                                image of NIC cannot be null</div>
                         </div>
 
                     </div>
@@ -157,7 +160,7 @@
                         <label for="password">Password</label>
                         <input type="password" class="form-control form-input" id="password" name="password" required>
                         <!-- Validation Error Message -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="passwordError" role="alert">
                             Password should be a valid password, contain minimum eight characters, at least one letter
                             and one number</div>
                     </div>
@@ -167,14 +170,36 @@
                         <label for="nicNumber">NIC Number</label>
                         <input type="text" class="form-control form-input" id="nicNumber" name="nicNumber" required>
                         <!-- Validation Error Messages -->
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">NIC
+                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="nicNumberError"
+                            role="alert">NIC
                             number should not be less than 10 characters</div>
-                        <div class="alert alert-danger mt-1 pb-1 " style="height: 4em;" id="adultError" role="alert">NIC
-                            number cannot be null</div>
+
                     </div>
 
                     <!-- Submit Button -->
                     <button id="btnSubmit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="bookingModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">You Signin SuccessFull</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Thank you for joining with us</p>
+                        <p class="text-warning"><small>You can login now</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <a href="login.html"><input type="submit" class="btn btn-success" value="Confirm"
+                                id="confirm"></a>
+                    </div>
                 </form>
             </div>
         </div>

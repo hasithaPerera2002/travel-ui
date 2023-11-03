@@ -1,8 +1,20 @@
+$("#btnProfile").hide();
+
 $(document).ready(function () {
   console.log("ready!");
   $("#spinner").hide();
-  sessionStorage.setItem("key", "value");
 });
+
+if (sessionStorage.getItem("userId")) {
+  console.log(
+    "userId is present in sessionStorage: " + sessionStorage.getItem("userId")
+  );
+  $("#btnLogin").hide();
+} else {
+  $("#btnProfile").hide();
+  $("#btnLogin").show();
+  console.log("userId is not present in sessionStorage");
+}
 
 var owlPlugin = function () {
   if ($(".owl-3-slider").length > 0) {
