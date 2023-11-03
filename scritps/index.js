@@ -9,6 +9,17 @@ if (sessionStorage.getItem("userId")) {
   console.log(
     "userId is present in sessionStorage: " + sessionStorage.getItem("userId")
   );
+
+  var innerHtml = `
+  <a href="profile.html"><img class="rounded-circle"
+                            style="border-radius: 30rem;height: 100%;width: 100%;" src="data:image/jpg;base64,${sessionStorage.getItem(
+                              "profilePicture"
+                            )}"
+                            alt="aio"></a>  
+  `;
+  $("#btnProfile").append(innerHtml);
+  $("#btnProfile").show();
+
   $("#btnLogin").hide();
 } else {
   $("#btnProfile").hide();

@@ -122,11 +122,9 @@ function validateForm() {
     genderError.style.display = "block";
     return false;
   } else {
-    // Either "Male" or "Female" is selected, clear the error message
     genderError.style.display = "none";
   }
 
-  // If all checks pass, the form will be submitted
   return true;
 }
 
