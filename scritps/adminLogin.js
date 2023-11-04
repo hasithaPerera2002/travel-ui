@@ -19,7 +19,7 @@ $("#btnLogin").click(function (event) {
       redirect: "follow",
     };
 
-    fetch("http://localhost:8080/api/v1/user/login", requestOptions)
+    fetch("http://localhost:8000/api/v1/user/login", requestOptions)
       .then((response) => {
         if (response.status == 200) {
           return response.json();
@@ -46,7 +46,7 @@ $("#btnLogin").click(function (event) {
               window.open("http://127.0.0.1:5501/packageAdmin.html");
               break;
             case "ADMIN_HOTEL_SERVICE":
-              window.open("http://127.0.0.1:5501/hoteleAdmin.html");
+              window.open("http://127.0.0.1:5501/hotelAdmin.html");
               break;
             case "ADMIN_VEHICLE_SERVICE":
               window.open("http://127.0.0.1:5501/vehicleAdmin.html");

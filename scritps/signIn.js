@@ -155,10 +155,11 @@ document
         redirect: "follow",
       };
 
-      fetch("http://localhost:8080/api/v1/user/register", requestOptions)
+      fetch("http://localhost:8000/api/v1/user/register", requestOptions)
         .then((response) => {
           response.text();
           $("#bookingModal").modal("show");
+          window.location.href = "http://localhost:8000/login.html";
         })
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));

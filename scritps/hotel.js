@@ -26,7 +26,7 @@ $("document").ready(async function () {
     console.log("packageType:", package);
 
     let data = await fetch(
-      `http://localhost:8082/api/v1/hotels/search/categoryAndPlace?placeName=${place}&category=${package}`,
+      `http://localhost:8000/api/v1/hotels/search/categoryAndPlace?placeName=${place}&category=${package}`,
       {
         method: "GET",
         mode: "cors",

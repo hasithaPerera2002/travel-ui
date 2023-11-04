@@ -24,7 +24,7 @@ $("#btnLogin").click(function (event) {
       redirect: "follow",
     };
 
-    fetch("http://localhost:8080/api/v1/user/login", requestOptions)
+    fetch("http://localhost:8000/api/v1/user/login", requestOptions)
       .then((response) => {
         if (response.status == 200) {
           return response.json();

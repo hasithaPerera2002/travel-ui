@@ -30,7 +30,7 @@ $("document").ready(async function () {
   };
 
   await fetch(
-    `http://localhost:8080/api/v1/user/getUser?id=${sessionStorage.getItem(
+    `http://localhost:8000/api/v1/user/getUser?id=${sessionStorage.getItem(
       "userId"
     )}`,
     requestOptions
@@ -144,7 +144,7 @@ $("#save").click(async function () {
       redirect: "follow",
     };
 
-    fetch("http://localhost:8080/api/v1/user/update", requestOptions)
+    fetch("http://localhost:8000/api/v1/user/update", requestOptions)
       .then((response) => {
         if (!response.ok) {
           $("#errorModal").modal("show");

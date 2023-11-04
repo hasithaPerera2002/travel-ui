@@ -6,7 +6,7 @@ $(document).ready(async function fetchData() {
   $("#spinner").show();
   try {
     var headers = {};
-    const response = await fetch("http://localhost:8081/api/v1/package/all", {
+    const response = await fetch("http://localhost:8000/api/v1/package/all", {
       method: "GET",
       mode: "cors",
       headers: headers,

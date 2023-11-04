@@ -9,6 +9,9 @@ let bookingData;
 let hotelIdBooked;
 let vehicleIdBooked;
 
+let myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${sessionStorage.getItem("jwt")}`);
+
 $("#dateRangeError").hide();
 $("#adultError").hide();
 $("#childrenError").hide();
@@ -16,7 +19,6 @@ $("#vehicleBrandError").hide();
 $("#vehicleNumberError").hide();
 $("#paymentProofError").hide();
 $("#packageError").hide();
-
 $(".spinner-div").show();
 
 $("#rangeDate").flatpickr({
@@ -42,122 +44,124 @@ $("#rangeDate").flatpickr({
   },
 });
 $("document").ready(async function () {
-  try {
-    if (sessionStorage.getItem("hasBooked") !== "true") {
-      const currentURL = window.location.href;
+  if (sessionStorage.getItem("userId")) {
+    try {
+      if (sessionStorage.getItem("hasBooked") !== "true") {
+        const currentURL = window.location.href;
 
-      const searchParams = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams(window.location.search);
 
-      // placeName = "Kandy_and_Upcountry";
-      // let packageType = "LUXURY";
+        // placeName = "Kandy_and_Upcountry";
+        // let packageType = "LUXURY";
 
-      function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        var results = regex.exec(location.search);
-        return results === null
-          ? ""
-          : decodeURIComponent(results[1].replace(/\+/g, " "));
+        function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+          var results = regex.exec(location.search);
+          return results === null
+            ? ""
+            : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        let id = getParameterByName("hotelId");
+        packageType = getParameterByName("packageType");
+
+        console.log("id:", id);
+        console.log("packageType:", packageType);
+
+        // fetching data from the server
+        let hotel = await fetch(
+          `http://localhost:8000/api/v1/hotels/search?id=${id}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: myHeaders,
+          }
+        );
+        if (hotel.ok) {
+          hotelData = await hotel.json();
+          hotelData = hotelData.data;
+          console.log(hotelData);
+        } else {
+          throw new Error("Network response was not ok in hotel data");
+        }
+      } else {
+        // -------------------------------------------------  booking data here------------------------------------------------------------------------
+        let booking = await fetch(
+          `http://localhost:8081/api/v1/booking/getBookingByUser?id=${sessionStorage.getItem(
+            "userId"
+          )}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: myHeaders,
+          }
+        );
+
+        if (booking.ok) {
+          bookingData = await booking.json();
+          bookingData = bookingData.data;
+          console.log(bookingData);
+
+          $("#startDate").val(bookingData.bookingDate);
+          $("#endDate").val(bookingData.bookingEndDate);
+          $("#adultCount").val(bookingData.noOfAdults);
+          $("#childCount").val(bookingData.noOfChildren);
+          $("#remark").val(bookingData.remark);
+          $("#packagePrice").val(bookingData.packageValue);
+          $("#packageName").val(bookingData.packageName);
+          $("#packageType").val(bookingData.packageType);
+          $("#totalDates").val(bookingData.noOfDays);
+
+          vehicleIdBooked = bookingData.vehicleId;
+          hotelIdBooked = bookingData.hotelId;
+          packageType = bookingData.packageType;
+        } else {
+          throw new Error("Network response was not ok in booking data");
+        }
       }
 
-      let id = getParameterByName("hotelId");
-      packageType = getParameterByName("packageType");
-
-      console.log("id:", id);
-      console.log("packageType:", packageType);
-
-      // fetching data from the server
-      let hotel = await fetch(
-        `http://localhost:8082/api/v1/hotels/search?id=${id}`,
+      let vehicle = await fetch(
+        `http://localhost:8000/api/v1/vehicles/search/available?category=${packageType}`,
         {
           method: "GET",
           mode: "cors",
-          headers: {},
+          headers: myHeaders,
         }
       );
-      if (hotel.ok) {
-        hotelData = await hotel.json();
-        hotelData = hotelData.data;
-        console.log(hotelData);
+      if (vehicle.ok) {
+        vehicleData = await vehicle.json();
+        vehicleData = vehicleData.data;
       } else {
-        throw new Error("Network response was not ok in hotel data");
+        throw new Error("Network response was not ok in vehicle data");
       }
-    } else {
-      // -------------------------------------------------  booking data here------------------------------------------------------------------------
-      let booking = await fetch(
-        `http://localhost:8081/api/v1/booking/getBookingByUser?id=${sessionStorage.getItem(
-          "userId"
-        )}`,
+
+      let guide = await fetch(
+        `http://localhost:8000/api/v1/guide/all/available`,
         {
           method: "GET",
           mode: "cors",
-          headers: {},
+          headers: myHeaders,
         }
       );
-
-      if (booking.ok) {
-        bookingData = await booking.json();
-        bookingData = bookingData.data;
-        console.log(bookingData);
-
-        $("#startDate").val(bookingData.bookingDate);
-        $("#endDate").val(bookingData.bookingEndDate);
-        $("#adultCount").val(bookingData.noOfAdults);
-        $("#childCount").val(bookingData.noOfChildren);
-        $("#remark").val(bookingData.remark);
-        $("#packagePrice").val(bookingData.packageValue);
-        $("#packageName").val(bookingData.packageName);
-        $("#packageType").val(bookingData.packageType);
-        $("#totalDates").val(bookingData.noOfDays);
-
-        vehicleIdBooked = bookingData.vehicleId;
-        hotelIdBooked = bookingData.hotelId;
-        packageType = bookingData.packageType;
+      if (guide.ok) {
+        guideData = await guide.json();
+        guideData = guideData.data;
+        console.log(guideData);
       } else {
-        throw new Error("Network response was not ok in booking data");
-      }
-    }
-
-    let vehicle = await fetch(
-      `http://localhost:8084/api/v1/vehicles/search/available?category=${packageType}`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
-      }
-    );
-    if (vehicle.ok) {
-      vehicleData = await vehicle.json();
-      vehicleData = vehicleData.data;
-    } else {
-      throw new Error("Network response was not ok in vehicle data");
-    }
-
-    let guide = await fetch(
-      `http://localhost:8085/api/v1/guide/all/available`,
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {},
-      }
-    );
-    if (guide.ok) {
-      guideData = await guide.json();
-      guideData = guideData.data;
-    } else {
-      throw new Error("Network response was not ok in Guide data");
-    }
-
-    vehicleData.forEach((element, index) => {
-      var newCard = $("<div>").addClass("carousel-item ");
-
-      if (index === 0) {
-        newCard.addClass("active");
+        throw new Error("Network response was not ok in Guide data");
       }
 
-      newCard.attr("data-package-id", element.vehicleId);
+      vehicleData.forEach((element, index) => {
+        var newCard = $("<div>").addClass("carousel-item ");
 
-      var innerHtml = ` <div class="carsoul-item ">
+        if (index === 0) {
+          newCard.addClass("active");
+        }
+
+        newCard.attr("data-package-id", element.vehicleId);
+
+        var innerHtml = ` <div class="carsoul-item ">
                         <div class="row">
                             <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
                                 <div class="col-md-7">
@@ -226,19 +230,19 @@ $("document").ready(async function () {
                             </div>
                         </div>
                     </div>`;
-      newCard.append(innerHtml);
-      $("#carouselVehicle").append(newCard);
-    });
+        newCard.append(innerHtml);
+        $("#carouselVehicle").append(newCard);
+      });
 
-    console.log("hotelData:", hotelData);
-    console.log("vehicleData:", vehicleData);
+      console.log("hotelData:", hotelData);
+      console.log("vehicleData:", vehicleData);
 
-    guideData.forEach((element, index) => {
-      const newCard = $("<div>").addClass("carousel-item ");
-      if (index === 0) {
-        newCard.addClass("active");
-      }
-      var innerHTML = `
+      guideData.forEach((element, index) => {
+        const newCard = $("<div>").addClass("carousel-item ");
+        if (index === 0) {
+          newCard.addClass("active");
+        }
+        var innerHTML = `
    
                         <div class="row">
                             <div class="col-md-10 offset-md-1  d-flex flex-wrap offset-md-1 card">
@@ -284,15 +288,22 @@ $("document").ready(async function () {
                     </div>
                     
                     `;
-      if (index === 0) {
-      }
+        if (index === 0) {
+        }
 
-      $("#carouselGuide").append(innerHTML);
+        $("#carouselGuide").append(innerHTML);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    $(".spinner-div").hide();
+  } else {
+    $("#warningModal").on("hidden.bs.modal", function (e) {
+      window.location.href = "login.html";
     });
-  } catch (error) {
-    console.log(error);
+
+    $("#warningModal").modal("show");
   }
-  $(".spinner-div").hide();
 });
 
 function initMap() {
@@ -325,6 +336,7 @@ function guideSelected(guide) {
       $("#guideEmail").val(element.guideEmail);
       $("#guideAge").val(element.guideAge);
       guide = element;
+      console.log(guide);
     }
   });
 }
@@ -375,9 +387,9 @@ $("#booking-btn").click(function () {
   if (validateData()) {
     console.log("called");
     var formdata = new FormData();
-    formdata.append("customerId", "5654656dd");
+    formdata.append("customerId", sessionStorage.getItem("userId"));
     formdata.append("packageValue", $("#packagePrice").val());
-    formdata.append("guideId", guide.guideId);
+    formdata.append("guideId", "c3777572-420a-4422-9963-79885c70875c");
     formdata.append("vehicleId", vehicle.vehicleId);
     formdata.append("isPaid", true);
     formdata.append("bookingDate", $("#startDate").val());
@@ -396,10 +408,12 @@ $("#booking-btn").click(function () {
       method: "POST",
       body: formdata,
       redirect: "follow",
+      headers: myHeaders,
     };
 
-    fetch("http://localhost:8081/api/v1/booking/save", requestOptions)
+    fetch("http://localhost:8000/api/v1/booking/save", requestOptions)
       .then(function (response) {
+        sessionStorage.setItem("hasBooked", true);
         $("#bookingModal").modal("show");
         if (response.ok) {
           toastr.success("Package added successfully");
