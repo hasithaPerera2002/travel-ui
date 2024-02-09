@@ -26,7 +26,7 @@ $("document").ready(async function () {
     console.log("packageType:", package);
 
     let data = await fetch(
-      `http://localhost:8000/api/v1/hotels/search/categoryAndPlace?placeName=${place}&category=${package}`,
+      `http://localhost:8082/api/v1/hotels/search/categoryAndPlace?placeName=${place}&category=${package}`,
       {
         method: "GET",
         mode: "cors",
@@ -107,6 +107,6 @@ $("document").ready(async function () {
 selectedHotel = (hotelId) => {
   const encodedHotelId = encodeURIComponent(hotelId);
   const encodedPackage = encodeURIComponent(package);
-  const encodedURL = `http://127.0.0.1:5501/booking.html?hotelId=${encodedHotelId}&packageType=${encodedPackage}`;
+  const encodedURL = `http://localhost:63343/ui/booking.html?hotelId=${encodedHotelId}&packageType=${encodedPackage}`;
   window.open(encodedURL, "_blank");
 };

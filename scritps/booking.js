@@ -74,7 +74,7 @@ $("document").ready(async function () {
           `http://localhost:8000/api/v1/hotels/search?id=${id}`,
           {
             method: "GET",
-            mode: "cors",
+            cors: "no-cors",
             headers: myHeaders,
           }
         );
@@ -93,7 +93,7 @@ $("document").ready(async function () {
           )}`,
           {
             method: "GET",
-            mode: "cors",
+            cors: "no-cors",
             headers: myHeaders,
           }
         );
@@ -125,7 +125,7 @@ $("document").ready(async function () {
         `http://localhost:8000/api/v1/vehicles/search/available?category=${packageType}`,
         {
           method: "GET",
-          mode: "cors",
+          cors: "no-cors",
           headers: myHeaders,
         }
       );
@@ -299,7 +299,7 @@ $("document").ready(async function () {
     $(".spinner-div").hide();
   } else {
     $("#warningModal").on("hidden.bs.modal", function (e) {
-      window.location.href = "login.html";
+      window.location.href = "http://localhost:63343/ui/login.html";
     });
 
     $("#warningModal").modal("show");
@@ -409,6 +409,7 @@ $("#booking-btn").click(function () {
       body: formdata,
       redirect: "follow",
       headers: myHeaders,
+      cors: "no-cors",
     };
 
     fetch("http://localhost:8000/api/v1/booking/save", requestOptions)
@@ -432,7 +433,7 @@ $("#booking-btn").click(function () {
   }
 });
 $("#confirm").click(function () {
-  const encodedURL = `http://127.0.0.1:5501/index.html`;
+  const encodedURL = `http://localhost:63343/index.html`;
   window.open(encodedURL);
 });
 

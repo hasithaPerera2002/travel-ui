@@ -1,5 +1,7 @@
 $(".alert").hide();
 
+//hp@gmail.com
+//qwert123
 function validateForm() {
   console.log("validateForm");
   // Get form field values
@@ -155,11 +157,11 @@ document
         redirect: "follow",
       };
 
-      fetch("http://localhost:8000/api/v1/user/register", requestOptions)
+      fetch("http://localhost:8080/api/v1/user/register", requestOptions)
         .then((response) => {
           response.text();
           $("#bookingModal").modal("show");
-          window.location.href = "http://localhost:8000/login.html";
+          window.location.href = "http://localhost:63342/course_work_AAD/ui/login.html";
         })
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));

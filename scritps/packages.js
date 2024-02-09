@@ -6,7 +6,7 @@ $(document).ready(async function fetchData() {
   $("#spinner").show();
   try {
     var headers = {};
-    const response = await fetch("http://localhost:8000/api/v1/package/all", {
+    const response = await fetch("http://localhost:8081/api/v1/package/all", {
       method: "GET",
       mode: "cors",
       headers: headers,
@@ -55,9 +55,7 @@ $(document).ready(async function fetchData() {
 function handleCard(placeName, packageType) {
   const encodedPlaceName = encodeURIComponent(placeName);
   const encodedPackageType = encodeURIComponent(packageType);
-  const encodedURL = `http://127.0.0.1:5501/${encodeURIComponent(
-    "hotel.html"
-  )}?placeName=${encodedPlaceName}&packageType=${encodedPackageType}`;
+  const encodedURL = `http://localhost:63343/ui/hotel.html?placeName=${encodedPlaceName}&packageType=${encodedPackageType}`;
 
   // Open the URL in a new window
   window.open(encodedURL, "_blank");
